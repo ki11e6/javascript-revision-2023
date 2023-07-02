@@ -12,20 +12,42 @@ function addItem(e) {
         alert('Please add a valid item');
         return;
     }
+    //to DOM
+    addItemToDom(newItem);
+    //to Local Storage
+    addItemToStorage(newItem);
+    //checkUI
+    checkUI();
+    //clear input fields
+    itemInput.value = '';
+}
 
+//adding to DOM
+function addItemToDom(newItem) {
     //create list item
     const li = document.createElement('li');
     li.appendChild(document.createTextNode(newItem));
     const button = createButton('remove-item btn-link text-red');
     const icon = createIcon('fa-solid fa-xmark');
-    //linking them
+    //linking to DOM
     button.appendChild(icon);
     li.appendChild(button);
     itemList.appendChild(li);
-    //checkUI
-    checkUI();
-    //clear input fields
-    itemInput.value = '';
+}
+
+//adding to locatStorage
+function addItemToStorage(item) {
+    let itemsFromStorage;
+    if (localStorage.getItem('items') === null) {
+        itemsFromStorage = [];
+    } else {
+        itemsFromStorage = JSON.parse(localStorage.getItem('items'));
+    }
+    //add new items to array
+    itemsFromStorage.push(item);
+
+    //convert to JSON string and set to localStorage
+    localStorage.setItem('items', JSON.stringify(itemsFromStorage));
 }
 
 //create button function
@@ -93,3 +115,7 @@ itemClear.addEventListener('click', clearItems);
 itemFilter.addEventListener('input', filterItems);
 
 checkUI();
+
+localStorage.setItem('hell', 'choco,picko,phone');
+const log = localStorage.getItem('hell');
+console.log(log);
